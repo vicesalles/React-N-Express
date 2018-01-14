@@ -3,11 +3,14 @@ const { Schema } = mongoose;
 
 const userSchema = new Schema({
     googleID:String,
+    linkedinID:String,
     name:String,
     surname:String,
     gender:String,
     email:String,
-    picture:Object
+    location:Object,
+    picture:String
 });
 
 mongoose.model('user',userSchema);
+
