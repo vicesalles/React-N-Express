@@ -5,6 +5,19 @@ const keys = require('../config/keys');
 
 const User = mongoose.model('user');
 
+//Serialize User
+passport.serializeUser((user, done) => {
+    done(null,user.id);
+})
+
+//Check if there's a valid user serialized
+passport.deserializeUser((id,done)=>{
+    User.findById(id)
+        .then(user=>{
+            done(null,user);
+        });
+})
+
 //Strategy waiting for a code
 passport.use(new googleStrategy({
         clientID: keys.googleClientID,
@@ -22,23 +35,23 @@ passport.use(new googleStrategy({
 
                     //Login!!    
                     console.log('user already exists');
-                   
+
                     //first argument = error (if there's one)
                     //second argument = user
-                    done(null,u);
+                    done(null, u);
 
                 } else {
                     //Create New User 
                     new User({
-                        googleID: profile.id,
-                        name: profile.name.givenName,
-                        surname: profile.name.familyName,
-                        gender: profile.gender,
-                        email: profile.emails[0].value,
-                        picture: profile.photos[0].value
-                    }).save()
-                        .then(u=>done(null,u))
-                    
+                            googleID: profile.id,
+                            name: profile.name.givenName,
+                            surname: profile.name.familyName,
+                            gender: profile.gender,
+                            email: profile.emails[0].value,
+                            picture: profile.photos[0].value
+                        }).save()
+                        .then(u => done(null, u))
+
                 }
             });
 
