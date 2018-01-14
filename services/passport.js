@@ -76,9 +76,9 @@ passport.use(new linkedinStrategy({
     //Got Token
     (accessToken, refreshToken, profile, done) => {
 
-        User.findOne({
-                linkedinID: profile.id
-            })
+        console.log(profile);
+
+        User.findOne({linkedinID: profile.id})
             .then((u) => {
 
                 if (u) {
@@ -92,7 +92,7 @@ passport.use(new linkedinStrategy({
                             name: profile.name.givenName,
                             surname: profile.name.familyName,
                             email: profile.emails[0].value,
-                            picture: profile._json.pictureURLS.values[0],
+                            picture: profile._json.pictureURL,
                             positions:profile._json.positions,
                             location: profile._json.location.name
                         }).save()
