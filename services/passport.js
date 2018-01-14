@@ -8,8 +8,6 @@ const keys = require('../config/keys');
 //User Model
 const User = mongoose.model('user');
 
-
-
 //Serialize User
 passport.serializeUser((user, done) => {
     done(null, user.id);
@@ -54,7 +52,7 @@ passport.use(new googleStrategy({
                             googleID: profile.id,
                             name: profile.name.givenName,
                             surname: profile.name.familyName,
-                            gender: profile.gender,
+                            gender: profile._json.gender,
                             email: profile.emails[0].value,
                             picture: profile.photos[0].value
                         }).save()
@@ -78,8 +76,6 @@ passport.use(new linkedinStrategy({
     //Got Token
     (accessToken, refreshToken, profile, done) => {
 
-        console.log('json',profile._json);
-
         User.findOne({
                 linkedinID: profile.id
             })
@@ -96,7 +92,8 @@ passport.use(new linkedinStrategy({
                             name: profile.name.givenName,
                             surname: profile.name.familyName,
                             email: profile.emails[0].value,
-                            picture: profile.photos[0].value,
+                            picture: profile._json.pictureURLS.values[0],
+                            positions:profile._json.positions,
                             location: profile._json.location.name
                         }).save()
                         .then(u => done(null, u))
@@ -119,9 +116,7 @@ passport.use(new twitterStrategy({
         callbackURL: "http://localhost:5000/auth/twitter/callback",
         userProfileURL: 'https://api.twitter.com/1.1/account/verify_credentials.json?include_email=true',
     },
-
-
-    
+   
 
     (acccesToken, refreshToken, profile, done) => {
      

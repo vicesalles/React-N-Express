@@ -9,8 +9,13 @@ const userSchema = new Schema({
     surname:String,
     gender:String,
     email:String,
-    location:Object,
-    picture:String
+    positions:Object,
+    location:String,
+    picture:String,
+    creation:{
+        type:Date,
+        default:Date.now
+    }
 });
 
 mongoose.model('user',userSchema);
