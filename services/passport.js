@@ -32,10 +32,7 @@ passport.use(new googleStrategy({
         User.findOne({googleID: profile.id})
             .then((u) => {
                 if (u) {
-
-                    //Login!!    
-                    console.log('user already exists');
-
+                    
                     //first argument = error (if there's one)
                     //second argument = user
                     done(null, u);

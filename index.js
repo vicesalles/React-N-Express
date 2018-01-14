@@ -22,8 +22,6 @@ mongoose.connect(keys.mongoURI);
 
 //Create App
 const app = express();
-//Enabling Auth
-app.use(passport.initialize());
 
 //Enabling cookies
 app.use(cookieSession({
@@ -31,6 +29,7 @@ app.use(cookieSession({
     keys:[keys.cookieKey,keys.secondCookieKey] //Amb això es crea l'encriptació de la id de sessio, se n'hi poden introduir diverses per millorar la seguretat.
 }));
 
+app.use(passport.initialize());
 app.use(passport.session());
 
 //Link routes
