@@ -19,17 +19,30 @@ module.exports = app => {
     //LINKEDIN
 
     //req
-    app.get('/auth/linkedin',passport.authenticate('linkedin'));
+    app.get('/auth/linkedin', passport.authenticate('linkedin'));
 
     //Auth calback
     app.get('/auth/linkedin/callback',
-        passport.authenticate('linkedin',{
-            successRedirect:'/api/current_user',
-            failureRedirect:'/login'
+        passport.authenticate('linkedin', {
+            successRedirect: '/api/current_user',
+            failureRedirect: '/login'
         })
     )
 
-    app.get('/api/current_user',(req,res)=>{        
+
+    //TWITTER
+    //req
+    app.get('/auth/twitter', passport.authenticate('twitter'));
+
+    //callback
+    app.get('/auth/twitter/callback', passport.authenticate('twitter', {
+        failureRedirect: '/login'
+    }), (req, res) => {
+        res.redirect('/api/current_user');
+    });
+
+
+    app.get('/api/current_user', (req, res) => {
         res.send(req.user);
     })
 
