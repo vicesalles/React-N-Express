@@ -26,7 +26,7 @@ const app = express();
 //Enabling cookies
 app.use(cookieSession({
     maxAge: 30 * 24 * 60 * 60 * 1000,
-    keys:[keys.cookieKey,keys.secondCookieKey] //Amb això es crea l'encriptació de la id de sessio, se n'hi poden introduir diverses per millorar la seguretat.
+    keys: [keys.cookieKey, keys.secondCookieKey] //Amb això es crea l'encriptació de la id de sessio, se n'hi poden introduir diverses per millorar la seguretat.
 }));
 
 app.use(passport.initialize());
