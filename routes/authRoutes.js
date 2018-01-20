@@ -32,26 +32,4 @@ module.exports = app => {
     )
 
 
-    //TWITTER
-    //req
-    app.get('/auth/twitter', passport.authenticate('twitter'));
-
-    //callback
-    app.get('/auth/twitter/callback', passport.authenticate('twitter', {
-        failureRedirect: '/login'
-    }), (req, res) => {
-        res.redirect('/api/current_user');
-    });
-
-
-    //Loggin out
-    app.get('/api/logout',(req,res)=>{
-        req.logout();
-    })
-
-    
-    app.get('/api/current_user', (req, res) => {
-        res.send(req.user);
-    })
-
 }
