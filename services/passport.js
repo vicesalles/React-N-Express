@@ -69,8 +69,9 @@ passport.use(new googleStrategy({
 passport.use(new linkedinStrategy({
         clientID: keys.linkedinClientID,
         clientSecret: keys.linkedinClientSecret,
-        callbackURL: "http://localhost:5000/auth/linkedin/callback",
+        callbackURL: "/auth/linkedin/callback",
         scope: ['r_basicprofile', 'r_emailaddress'],
+        proxy:true,
         state: true
     },
 
