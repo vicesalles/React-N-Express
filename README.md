@@ -1,4 +1,4 @@
-# REACT - EXPRESS PROJECT
+# REACT - NODE (EXPRESS) PROJECT
 
 ## What
 
@@ -6,12 +6,13 @@ This is part of a course by the great [Stephen Grider](https://github.com/Stephe
 
 In this course I've been training with:
 
-- API creation
+- Express API creation
+- Node js env Variables
 - MongoDB
-- Authentication with Passport.
+- Authentication with Passport
 - async/await functions
-- fetching data.
-- React as a front-end of my API.
+- fetching data
+- React as a front-end of my API
 - Material CSS
 
 ## Outcome
