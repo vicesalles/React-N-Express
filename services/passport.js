@@ -22,7 +22,6 @@ passport.deserializeUser((id, done) => {
 })
 
 
-
 //STRATEGIES
 
 //Google
@@ -34,33 +33,32 @@ passport.use(new googleStrategy({
     },
 
     //Got the token
-    (accessToken, refreshToken, profile, done) => {
+    async(accessToken, refreshToken, profile, done) => {
 
         //User exists?   
-        User.findOne({
-                googleID: profile.id
-            })
-            .then((u) => {
-                if (u) {
+        const isUser = await User.findOne({
+            googleID: profile.id
+        })
 
-                    //first argument = error (if there's one)
-                    //second argument = user
-                    done(null, u);
+        if (isUser) {
 
-                } else {
-                    //Create New User 
-                    new User({
-                            googleID: profile.id,
-                            name: profile.name.givenName,
-                            surname: profile.name.familyName,
-                            gender: profile._json.gender,
-                            email: profile.emails[0].value,
-                            picture: profile.photos[0].value
-                        }).save()
-                        .then(u => done(null, u))
+            //first argument = error (if there's one)
+            //second argument = user
+            done(null, isUser);
 
-                }
-            });
+        } else {
+
+            //Create New User 
+            const newUser = await new User({
+                googleID: profile.id,
+                name: profile.name.givenName,
+                surname: profile.name.familyName,
+                gender: profile._json.gender,
+                email: profile.emails[0].value,
+                picture: profile.photos[0].value
+            }).save()
+            done(null, newUser);
+        }
 
     }
 ));
@@ -71,42 +69,40 @@ passport.use(new linkedinStrategy({
         clientSecret: keys.linkedinClientSecret,
         callbackURL: "/auth/linkedin/callback",
         scope: ['r_basicprofile', 'r_emailaddress'],
-        proxy:true,
+        proxy: true,
         state: true
     },
 
     //Got Token
-    (accessToken, refreshToken, profile, done) => {
+    async(accessToken, refreshToken, profile, done) => {
 
         console.log(profile);
 
-        User.findOne({linkedinID: profile.id})
-            .then((u) => {
-
-                if (u) {
-
-                    done(null, u);
-
-                } else {
-
-                    new User({
-                            linkedinID: profile.id,
-                            name: profile.name.givenName,
-                            surname: profile.name.familyName,
-                            email: profile.emails[0].value,
-                            picture: profile._json.pictureURL,
-                            positions:profile._json.positions,
-                            location: profile._json.location.name
-                        }).save()
-                        .then(u => done(null, u))
-
-                }
+        const isUser = await User.findOne({
+            linkedinID: profile.id
+        })
 
 
-            })
+        if (isUser) {
+
+            done(null, isUser);
+
+        } else {
+
+            const newUser = await new User({
+                linkedinID: profile.id,
+                name: profile.name.givenName,
+                surname: profile.name.familyName,
+                email: profile.emails[0].value,
+                picture: profile._json.pictureURL,
+                positions: profile._json.positions,
+                location: profile._json.location.name
+            }).save()
+
+            done(null, newUser)
+
+        }
 
     }
 
-
 ));
-
