@@ -14,7 +14,7 @@ module.exports = app => {
     //Auth callback 
     app.get('/auth/google/callback',
         passport.authenticate('google'), (req, res) => {
-            res.redirect('/api/current_user');
+            res.redirect('/surveys');
         }
     );
 
@@ -26,10 +26,24 @@ module.exports = app => {
     //Auth calback
     app.get('/auth/linkedin/callback',
         passport.authenticate('linkedin', {
-            successRedirect: '/api/current_user',
+            successRedirect: '/surveys',
             failureRedirect: '/login'
         })
     )
+
+    //USER GETTING HER OWN DATA
+
+    app.get('/api/me', (req, res) => {
+        res.send(req.user);
+    })
+
+
+    //Login OUT
+
+    app.get('/api/logout', (req, res) => {
+        req.logout();
+        res.redirect('/');
+    })
 
 
 }
