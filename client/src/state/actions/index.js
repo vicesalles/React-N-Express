@@ -1,18 +1,18 @@
 import axios from 'axios';
 
 //TYPES
-import {
-    FETCH_USER
-} from './types';
+import {FETCH_USER} from './types';
 
-export const fetchUser = () =>
+export const fetchUser = () => async(dispatch) => {
 
-    async(dispatch) => {
+    const res = await axios.get('/api/me');
+    dispatch({type: FETCH_USER, payload: res.data});
 
-        const res = await axios.get('/api/me');
-        dispatch({
-            type: FETCH_USER,
-            payload: res.data
-        });
+}
 
-    }
+export const handlePayment = (token) => async dispatch => {
+
+    const res = await axios.post('/api/stripe', token);
+    dispatch({type: FETCH_USER, payload: res.data});
+
+}

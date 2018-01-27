@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
+import Stripe from './Stripe';
 
 class Header extends Component {
 
@@ -11,9 +12,14 @@ class Header extends Component {
             case false:
                 return (<li><a href="/auth/linkedin">Login with Linkedin</a></li>
                 );
+
+            //User is logged
             default:
-                return (<li><a href="/api/logout">Logout</a></li>
-                );
+                return [
+                <li key="credits"><b>Credits </b>{this.props.auth.credits}</li>,
+                <li key="logout"><a href="/api/logout">Logout</a></li>,
+                <li key="stripe"><Stripe/></li>
+            ];
         }
     }
 

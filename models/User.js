@@ -15,6 +15,10 @@ const userSchema = new Schema({
     creation:{
         type:Date,
         default:Date.now
+    },
+    credits:{
+        type:Number,
+        default:0
     }
 });
 

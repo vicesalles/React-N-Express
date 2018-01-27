@@ -76,7 +76,7 @@ passport.use(new linkedinStrategy({
     //Got Token
     async(accessToken, refreshToken, profile, done) => {
 
-        console.log(profile);
+        //console.log(profile);
 
         const isUser = await User.findOne({
             linkedinID: profile.id
@@ -94,7 +94,7 @@ passport.use(new linkedinStrategy({
                 name: profile.name.givenName,
                 surname: profile.name.familyName,
                 email: profile.emails[0].value,
-                picture: profile._json.pictureURL,
+                picture: profile._json.pictureUrl,
                 positions: profile._json.positions,
                 location: profile._json.location.name
             }).save()
